@@ -1,7 +1,7 @@
 //Code for the Simon Says Game!
 
 function playSound(e){
-	if(isSimonPlaying) return;
+	if(isSimonPlaying || isGameOver) return;
 
 	const audio = document.querySelector(`audio[data-key="${this.dataset.key}"]`);
 	if(!audio) return;
@@ -18,19 +18,15 @@ function removeHighlight(e){
 	if(e.propertyName === "opacity"){
 		if(this.classList.contains("simon-playing1")){
 			this.classList.remove("simon-playing1");
-			console.log("Simon was playing, now he is not");
 		}
 		if(this.classList.contains("simon-playing2")){
 			this.classList.remove("simon-playing2");
-			console.log("Simon was playing, now he is not");
 		}
 		if(this.classList.contains("simon-playing3")){
 			this.classList.remove("simon-playing3");
-			console.log("Simon was playing, now he is not");
 		}
 		if(this.classList.contains("simon-playing4")){
 			this.classList.remove("simon-playing4");
-			console.log("Simon was playing, now he is not");
 		}
 	}
 }
@@ -49,18 +45,25 @@ function changeDifficulty(e){
 function startClicked(e){
 	setInterval(function(){gameLoop();}, 200)
 	this.disabled = true;
+	isGameOver = false;
+	isSimonPlaying = false;
+	isPlayerPlaying = false;
+	isSimonsTurn = true;
+	turn = 1;
+	currentMove = 0;
+	simonMoveList = [];
+	simonInrement = 3;
 }
 
 //variables to be used in the game loop
 var simonMoveList = [];
 var isSimonPlaying = false;
 var isPlayerPlaying = false;
-var isGameOver = false;
+var isGameOver = true;
 var isSimonsTurn = true;
 var turn = 1;
 var currentMove = 0;
 var simonIncrement = 3;
-const simonPossibleMoves = ["red", "blue", "green", "yellow"];
 const simonDefaultSpeed = 1000;
 const simonDefaultIncrement = 3;
 const simonMinimumSpeed = 200;
@@ -196,11 +199,13 @@ function endPlayerTurn(){
 
 function gameOver(){
 	//TODO handle the game over case
-	console.log("You lose :(");
 	isGameOver = true;
 	disableUserControls();
-	simonIncrement = simonDefaultIncrement;
+	clearInterval();
 
+	//Let player restart the game!
+	startButton.disabled = false;
+	startButton.value = "Restart?";
 }
 
 function gameLoop(){

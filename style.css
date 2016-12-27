@@ -65,7 +65,7 @@ body{
 .btn-start{
 	position:absolute;
 	bottom:1vh;
-	left:calc(50% - 60px);
+	left:calc(50% - 90px);
 	background:green;
 	color:white;
 	font-size:30px;
@@ -74,7 +74,7 @@ body{
 	margin:auto;
 	cursor:hand;
 	cursor:pointer;
-	width:120px;
+	width:180px;
 	border:none;
 	transition:all 1s;
 }
