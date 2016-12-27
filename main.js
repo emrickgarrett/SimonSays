@@ -52,7 +52,7 @@ function startClicked(e){
 	turn = 1;
 	currentMove = 0;
 	simonMoveList = [];
-	simonInrement = 3;
+	simonIncrement = 3;
 }
 
 //variables to be used in the game loop
