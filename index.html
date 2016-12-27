@@ -8,13 +8,23 @@
 
 <body>
 	<span class="title">Simon Says!</span>
-
+	<div class="difficulty-container">
+		<span class="subtitle">Difficulty Level</span>
+		<div class="buttons">
+			<span data-key="1" class="btn">Easy</span>
+			<span data-key="2" class="btn btn-selected">Normal</span>
+			<span data-key="3" class="btn">Hard</span>
+			<span data-key="4" class="btn">Insane</span>
+		</div>
+	</div>
 	<div class="panel-container">
 	    <div data-key="red" class="active panel panel1"></div>
 	    <div data-key="blue" class="active panel panel2"></div>
 	    <div data-key="green" class="active panel panel3"></div>
 	    <div data-key="yellow" class="active panel panel4"></div>
   	</div>
+
+	<input type="button" class="btn-start" value="Start!"></input>
 </body>
 
 <audio data-key="red" src="sounds/ogg/sounds_01.ogg"></audio>

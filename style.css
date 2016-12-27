@@ -13,14 +13,79 @@ body{
 }
 
 .title{
-	font-size:40px;
+	font-size:60px;
 	color:white;
 	font-family:Georgia, serif;
 	font-weight:bold;
-	margin:0 auto;
+	margin:0 auto 1em auto;
 	display:block;
-	width:350px;
 	text-align:center;
+}
+
+.subtitle{
+	font-size:32px;
+	color:white;
+	font-family:Georgia, serif;
+	font-weight:bold;
+	margin: 0 auto;
+	text-align:center;
+	display:block;
+	text-decoration:underline;
+}
+
+.buttons{
+	margin: 0 auto;
+	display:flex;
+	justify-content:center;
+}
+
+.btn{
+	background: white;
+	color:black;
+	font-size:16px;
+	font-weight:bold;
+	text-align:center;
+	width:6vh;
+	padding:10px;
+	margin: 0 5px;
+	border: 1px solid black;
+	cursor:hand;
+	cursor:pointer;
+}
+
+.btn:hover{
+	opacity:.8;
+}
+
+.btn-selected{
+	background:lightgray;
+	color:black;
+}
+
+.btn-start{
+	position:absolute;
+	bottom:1vh;
+	left:calc(50% - 60px);
+	background:green;
+	color:white;
+	font-size:30px;
+	text-align:center;
+	padding:10px 20px;
+	margin:auto;
+	cursor:hand;
+	cursor:pointer;
+	width:120px;
+	border:none;
+	transition:all 1s;
+}
+
+.btn-start:hover{
+	background:darkgreen;
+}
+
+.btn-start:disabled{
+	color:black;
+	background:darkgray;
 }
 
 .panel-container{

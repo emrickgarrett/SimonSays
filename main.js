@@ -35,10 +35,27 @@ function removeHighlight(e){
 	}
 }
 
+function changeDifficulty(e){
+	difficultyButtons.forEach(button => {
+		if(button.classList.contains("btn-selected")){
+			button.classList.remove("btn-selected");
+		}
+	});
+	this.classList.add("btn-selected");
+	console.log("Difficulty: " + this.dataset.key);
+	difficultyMultiplier = difficultyMultipliers[this.dataset.key];
+}
+
+function startClicked(e){
+	setInterval(function(){gameLoop();}, 200)
+	this.disabled = true;
+}
+
 //variables to be used in the game loop
 var simonMoveList = [];
 var isSimonPlaying = false;
 var isPlayerPlaying = false;
+var isGameOver = false;
 var isSimonsTurn = true;
 var turn = 1;
 var currentMove = 0;
@@ -49,8 +66,7 @@ const simonDefaultIncrement = 3;
 const simonMinimumSpeed = 200;
 const simonIncrementSpeed = 4;
 const difficultyMultipliers = [2, 4, 8, 16];
-const difficultyMultiplier = difficultyMultipliers[2];
-const difficultyText = ["Easy", "Normal", "Hard", "Insane"];
+var difficultyMultiplier = difficultyMultipliers[1];
 
 //Functions to be used in the game loop
 function disableUserControls(){
@@ -181,30 +197,35 @@ function endPlayerTurn(){
 function gameOver(){
 	//TODO handle the game over case
 	console.log("You lose :(");
+	isGameOver = true;
+	disableUserControls();
 	simonIncrement = simonDefaultIncrement;
+
 }
 
 function gameLoop(){
-	if(!isSimonPlaying){
-		if(isSimonsTurn){
-			simonTurn();
-		}else{
-			if(!isPlayerPlaying){
-				playerTurn();
+	if(!isGameOver){
+		if(!isSimonPlaying){
+			if(isSimonsTurn){
+				simonTurn();
+			}else{
+				if(!isPlayerPlaying){
+					playerTurn();
+				}
 			}
-		}
 
+		}
 	}
 }
 
 
 const panels = Array.from(document.querySelectorAll(".panel"));
-console.log(panels);
-console.log(panels[0].dataset.key);
+const difficultyButtons = Array.from(document.querySelectorAll(".btn"));
+const startButton = document.querySelector(".btn-start");
 
 panels.forEach(note => note.addEventListener('click', playSound));
 panels.forEach(note => note.addEventListener('transitionend', removeHighlight));
 
+difficultyButtons.forEach(button => button.addEventListener('click', changeDifficulty));
 
-
-setInterval(function(){gameLoop();}, 200)
+startButton.addEventListener('click', startClicked);
