@@ -32,6 +32,7 @@ body{
 	border-radius:20vh;
 	overflow:hidden;
 	flex-wrap:wrap;
+	background:white;
 }
 
 .panel{
@@ -45,9 +46,22 @@ body{
 	margin:0;
 	cursor:hand;
 	cursor:pointer;
+	transition: all 1s;
+	overflow: !important hidden;
 }
 
-.panel:after{
+.simon-playing1, .simon-playing2, .simon-playing3, .simon-playing4{
+	opacity:.5;
+	overflow:hidden;
+	transition: opacity 1s;
+}
+
+.simon-playing1{border-top-left-radius: 20vh;}
+.simon-playing2{border-top-right-radius: 20vh;}
+.simon-playing3{border-bottom-left-radius: 20vh;}
+.simon-playing4{border-bottom-right-radius: 20vh;}
+
+.active:after{
 	content:"";
 	display:block;
 	height:100%;
@@ -58,14 +72,14 @@ body{
 	-webkit-transition: all .5s;
 	transition: all .5s;
 }
-.panel:hover:after{opacity:1;}
+.active:hover:after{opacity:1;}
 
 .panel1:after{border-top-left-radius: 20vh;}
 .panel2:after{border-top-right-radius: 20vh;}
 .panel3:after{border-bottom-left-radius:20vh;}
 .panel4:after{border-bottom-right-radius:20vh;}
 
-.panel1{background:red;}
-.panel2{background:blue;}
-.panel3{background:green;}
-.panel4{background:yellow;}
+.panel1{background:red;border-top-left-radius: 20vh;}
+.panel2{background:blue;border-top-right-radius: 20vh;}
+.panel3{background:green;border-bottom-left-radius:20vh;}
+.panel4{background:yellow;border-bottom-right-radius:20vh;}
