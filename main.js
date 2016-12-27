@@ -42,11 +42,14 @@ var isPlayerPlaying = false;
 var isSimonsTurn = true;
 var turn = 1;
 var currentMove = 0;
+var simonIncrement = 3;
 const simonPossibleMoves = ["red", "blue", "green", "yellow"];
 const simonDefaultSpeed = 1000;
-const simonIncrementSpeed = 50;
-const difficultyMultipliers = [1, 2, 4, 8];
-const difficultyMultiplier = difficultyMultipliers[1];
+const simonDefaultIncrement = 3;
+const simonMinimumSpeed = 200;
+const simonIncrementSpeed = 4;
+const difficultyMultipliers = [2, 4, 8, 16];
+const difficultyMultiplier = difficultyMultipliers[2];
 const difficultyText = ["Easy", "Normal", "Hard", "Insane"];
 
 //Functions to be used in the game loop
@@ -68,7 +71,7 @@ function enableUserControls(){
 
 function generateMove(){
 	//generate rando number
-	const random = Math.floor((Math.random() * 3));
+	const random = Math.floor((Math.random() * 4));
 	switch(random){
 		case 0:
 			simonMoveList.push("red");
@@ -80,7 +83,7 @@ function generateMove(){
 			simonMoveList.push("green");
 			break;
 		case 3:
-			simonMoveList.push("blue");
+			simonMoveList.push("yellow");
 			break;
 		default:
 			console.log("Error generating move");
@@ -123,14 +126,16 @@ function playSimonSound(move, interval, i){
 }
 
 function playMoves(){
-	var moveSpeed = simonDefaultSpeed - (turn * simonIncrementSpeed * difficultyMultiplier);
-
+	//Minimum MoveSpeed is 200 ms, or else it's impossible to play
+	var moveSpeed = simonDefaultSpeed - (turn * simonIncrement * difficultyMultiplier);
+	moveSpeed = (moveSpeed >= 200)? moveSpeed : 200;
 	simonMoveList.forEach((move,i) =>{
 		console.log(move);
 		console.log(i);
 		console.log(moveSpeed);
 		var interval = setInterval(function(){playSimonSound(move, interval, i)}, moveSpeed);
-		moveSpeed += simonDefaultSpeed - (turn * simonIncrementSpeed * difficultyMultiplier);
+		var moveSpeedAdd = simonDefaultSpeed - (turn * simonIncrement * difficultyMultiplier);
+		moveSpeed += (moveSpeedAdd >= 200)? moveSpeedAdd : 200;
 	});
 }
 
@@ -146,6 +151,7 @@ function checkPlayerMove(key){
 		endPlayerTurn();
 		currentMove = 0;
 		turn++;
+		simonIncrement += simonIncrementSpeed;
 	}
 }
 
@@ -175,6 +181,7 @@ function endPlayerTurn(){
 function gameOver(){
 	//TODO handle the game over case
 	console.log("You lose :(");
+	simonIncrement = simonDefaultIncrement;
 }
 
 function gameLoop(){
