@@ -8,11 +8,13 @@ function playSound(e){
 
 	audio.currentTime = 0;
 	audio.play();
+
+	checkPlayerMove(this.dataset.key);
 }
 
 //Got to remove the highlight after simon has played the note!
 function removeHighlight(e){
-	//TODO
+	//TODO more elegant way of removing classes from the elements
 	if(e.propertyName === "opacity"){
 		if(this.classList.contains("simon-playing1")){
 			this.classList.remove("simon-playing1");
@@ -33,18 +35,21 @@ function removeHighlight(e){
 	}
 }
 
-var simonMoveList = ["green", "blue", "yellow"];
+//variables to be used in the game loop
+var simonMoveList = [];
 var isSimonPlaying = false;
 var isPlayerPlaying = false;
 var isSimonsTurn = true;
 var turn = 1;
+var currentMove = 0;
 const simonPossibleMoves = ["red", "blue", "green", "yellow"];
 const simonDefaultSpeed = 1000;
-const simonIncrementSpeed = .1;
+const simonIncrementSpeed = 50;
 const difficultyMultipliers = [1, 2, 4, 8];
-const difficultyMultiplier = difficultyMultipliers[0];
+const difficultyMultiplier = difficultyMultipliers[1];
 const difficultyText = ["Easy", "Normal", "Hard", "Insane"];
 
+//Functions to be used in the game loop
 function disableUserControls(){
 	//Remove hover class from panels
 	panels.forEach(note => {
@@ -59,12 +64,30 @@ function enableUserControls(){
 		if(!note.classList.contains("active"))
 			note.classList.add("active");
 	});
-	console.log("I am here");
 }
 
 function generateMove(){
-	//TODO create meaningful move generation
-	simonMoveList.push("red");
+	//generate rando number
+	const random = Math.floor((Math.random() * 3));
+	switch(random){
+		case 0:
+			simonMoveList.push("red");
+			break;
+		case 1:
+			simonMoveList.push("blue");
+			break;
+		case 2:
+			simonMoveList.push("green");
+			break;
+		case 3:
+			simonMoveList.push("blue");
+			break;
+		default:
+			console.log("Error generating move");
+			break;
+	}
+
+
 }
 
 function playSimonSound(move, interval, i){
@@ -100,15 +123,30 @@ function playSimonSound(move, interval, i){
 }
 
 function playMoves(){
-	var moveSpeed = simonDefaultSpeed * (turn + simonIncrementSpeed) / difficultyMultiplier;
+	var moveSpeed = simonDefaultSpeed - (turn * simonIncrementSpeed * difficultyMultiplier);
 
 	simonMoveList.forEach((move,i) =>{
 		console.log(move);
 		console.log(i);
 		console.log(moveSpeed);
 		var interval = setInterval(function(){playSimonSound(move, interval, i)}, moveSpeed);
-		moveSpeed += 1000;
+		moveSpeed += simonDefaultSpeed - (turn * simonIncrementSpeed * difficultyMultiplier);
 	});
+}
+
+function checkPlayerMove(key){
+	if(key === simonMoveList[currentMove]){
+		//Yes!
+		currentMove++;
+	}else{//u dun fukt up sun.
+		gameOver();
+	}
+	if(currentMove >= simonMoveList.length){
+		//end turn
+		endPlayerTurn();
+		currentMove = 0;
+		turn++;
+	}
 }
 
 function simonTurn(){
@@ -132,6 +170,11 @@ function playerTurn(){
 function endPlayerTurn(){
 	isPlayerPlaying = false;
 	isSimonsTurn = true;
+}
+
+function gameOver(){
+	//TODO handle the game over case
+	console.log("You lose :(");
 }
 
 function gameLoop(){
