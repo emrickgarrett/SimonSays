@@ -12,9 +12,7 @@ function playSound(e){
 	checkPlayerMove(this.dataset.key);
 }
 
-//Got to remove the highlight after simon has played the note!
 function removeHighlight(e){
-	//TODO more elegant way of removing classes from the elements
 	if(e.propertyName === "opacity"){
 		if(this.classList.contains("simon-playing1")){
 			this.classList.remove("simon-playing1");
@@ -73,7 +71,6 @@ var difficultyMultiplier = difficultyMultipliers[1];
 
 //Functions to be used in the game loop
 function disableUserControls(){
-	//Remove hover class from panels
 	panels.forEach(note => {
 		if(note.classList.contains("active"))
 			note.classList.remove("active");
@@ -160,9 +157,8 @@ function playMoves(){
 
 function checkPlayerMove(key){
 	if(key === simonMoveList[currentMove]){
-		//Yes!
 		currentMove++;
-	}else{//u dun fukt up sun.
+	}else{
 		gameOver();
 	}
 	if(currentMove >= simonMoveList.length){
@@ -198,7 +194,6 @@ function endPlayerTurn(){
 }
 
 function gameOver(){
-	//TODO handle the game over case
 	isGameOver = true;
 	disableUserControls();
 	clearInterval();
